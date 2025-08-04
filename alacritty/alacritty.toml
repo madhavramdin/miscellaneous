@@ -5,6 +5,7 @@ padding.y = 10
 #decorations = "None"
 decorations_theme_variant = "Dark" # "Dark"
 startup_mode = "Maximized"
+dynamic_title = false
 # Colors (Gruvbox dark)
 
 # Default colors

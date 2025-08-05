@@ -12,6 +12,10 @@ setopt rmstarsilent
 
 alias vi="nvim"
 alias softwareupdate="sudo apt update && sudo apt upgrade -y && sudo apt autoremove; sudo snap refresh;if [ -e /var/run/reboot-required ];then sudo reboot;fi"
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
 if command -v tmux &>/dev/null && [ -z "$TMUX" ]; then
   tmux attach || tmux new-session
 fi

@@ -1,68 +1,97 @@
-set clipboard+=unnamedplus
-set paste              
-set go+=a
-set expandtab
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set termguicolors
-set showcmd
-set showmatch
-set ignorecase
-set smartcase
-set incsearch
-set autowrite
-set hidden
-set number
-set mouse=a
-call plug#begin()
-" List your plugins here
+" ============================
+" Basic Vim Settings
+" ============================
+set nocompatible             " Use Vim defaults, not vi
+set clipboard+=unnamedplus   " Use system clipboard
+set go+=a                    " Append to 'formatoptions'
+
+set expandtab                " Use spaces instead of tabs
+set tabstop=2                " Number of spaces per tab
+set softtabstop=2            " Number of spaces when editing
+set shiftwidth=2             " Number of spaces for autoindent
+
+set termguicolors            " Enable true colors for gruvbox
+set background=dark          " Dark background (change to light if needed)
+set showcmd                  " Show partial commands
+set showmatch                " Highlight matching brackets
+set ignorecase               " Case-insensitive search
+set smartcase                " Respect uppercase
+set incsearch                " Incremental search
+set autowrite                " Auto save before commands
+set hidden                   " Allow switching buffers without saving
+set number                   " Show line numbers
+set mouse=a                  " Enable mouse
+set wrap                     " Wrap long lines
+set modelines=0              " Disable modelines
+
+" ============================
+" Plugin Management (vim-plug)
+" ============================
+call plug#begin('~/.vim/plugged')
+
+" Sensible defaults
 Plug 'tpope/vim-sensible'
+
+" Colorscheme
 Plug 'gruvbox-community/gruvbox'
+
+" File explorers & language support
 Plug 'preservim/nerdtree'
 Plug 'hashivim/vim-terraform'
-Plug 'tpope/vim-fugitive'
 Plug 'rodjek/vim-puppet'
+Plug 'pearofducks/ansible-vim'
+Plug 'stephpy/vim-yaml'
+
+" Git integration
+Plug 'tpope/vim-fugitive'
+
 call plug#end()
 
-colorscheme gruvbox
-" Set compatibility to Vim only.
-set nocompatible
+" ============================
+" Syntax and Colorscheme
+" ============================
+syntax on                    " Enable syntax highlighting
+colorscheme gruvbox           " Load gruvbox colorscheme
 
-" Helps force plug-ins to load correctly when it is turned back on below.
-filetype off
+" ============================
+" Filetype & Indentation
+" ============================
+filetype plugin indent on    " Enable filetype plugins and indentation
 
-" Turn on syntax highlighting.
-syntax on
+" Better YAML detection for Ansible
+autocmd BufRead,BufNewFile *.yml,*.yaml set filetype=yaml.ansible
 
-" For plug-ins to load correctly.
-filetype plugin indent on
-
-" Turn off modelines
-set modelines=0
-
-" Automatically wrap text that extends beyond the screen length.
-set wrap
-" Vim's auto indentation feature does not work properly with text copied from outside of Vim. Press the <F2> key to toggle paste mode on/off.
-"nnoremap <F2> :set invpaste paste?<CR>
-"imap <F2> <C-O>:set invpaste paste?<CR>
-"set pastetoggle=<F2>
-
-"copy and paste
-noremap <C-c> "+y
-vnoremap <C-c> "+y
-
-
-" nerdtree
+" ============================
+" NERDTree Settings
+" ============================
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
-" Start NERDTree when Vim starts with a directory argument.
+
+" Open NERDTree when starting Vim with a directory
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
-    \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
-" Exit Vim if NERDTree is the only window remaining in the only tab.
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | call feedkeys(":quit\<CR>:\<BS>") | endif
-" fugitive statusline
+      \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
+
+" Close Vim if NERDTree is the only window
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
+      \ quit | endif
+
+" ============================
+" Copy & Paste Mappings
+" ============================
+" Copy to system clipboard
+noremap <C-c> "+y
+vnoremap <C-c> "+y
+
+" Toggle paste mode to prevent extra line breaks
+set pastetoggle=<F2>
+nnoremap <F2> :set invpaste paste?<CR>
+set showmode
+
+" ============================
+" Fugitive Statusline
+" ============================
 set statusline=%<%f\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
+

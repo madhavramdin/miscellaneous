@@ -45,7 +45,7 @@
                 },
                 "guid": "{1ddaf8b8-3a0a-598d-aef7-f88e479f1444}",
                 "hidden": false,
-                "name": "Ubuntu-24.04",
+                "name": "Ubuntu-26.04",
                 "source": "Microsoft.WSL"
             }
         ]
@@ -79,5 +79,5 @@
     "themes": [],
     "warning.confirmCloseAllTabs": false,
     "warning.largePaste": false,
-    "warning.multiLinePaste": false
+    "warning.multiLinePaste": "never"
 }
